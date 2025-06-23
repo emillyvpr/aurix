@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Matérias do Aluno</title>
+  <link rel="stylesheet" href="stylealuno.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">VESTIBULIZE</div>
+    <div class="turma">TURMA: 3º EM A</div>
+  </header>
+  <div class="container">
+
+    <div class="aluno-nome" id="aluno-nome"></div>
+
+    <div class="box">
+      <h2>Matérias Cursadas</h2>
+      <table class="notas-table">
+        <tr>
+          <th>Disciplina</th>
+          <th>Professor(a)</th>
+          <th>Carga Horária</th>
+          <th>Sala</th>
+        </tr>
+        <tr>
+          <td>Matemática</td>
+          <td>Prof. Carlos Silva</td>
+          <td>4h/semana</td>
+          <td>201</td>
+        </tr>
+        <tr>
+          <td>História</td>
+          <td>Profª. Ana Costa</td>
+          <td>2h/semana</td>
+          <td>202</td>
+        </tr>
+        <tr>
+          <td>Química</td>
+          <td>Prof. João Pereira</td>
+          <td>3h/semana</td>
+          <td>203</td>
+        </tr>
+        <td>Português</td>
+          <td>Prof. Graça Martins</td>
+          <td>3h/semana</td>
+          <td>204</td>
+        </tr>
+        <td>Biologia</td>
+          <td>Prof. Júlia Santos</td>
+          <td>3h/semana</td>
+          <td>205</td>
+        </tr>
+      </table>
+      <p class="legenda">
+        Caso haja mudança de professor(a) ou sala, atualizações serão feitas no sistema.
+      </p>
+    </div>
+  </div>
+  <script>
+    const nomeDoAluno = "João Pedro";
+    document.getElementById("aluno-nome").innerHTML = `Aluno(a): <strong>${nomeDoAluno}</strong>`;
+  </script>
+    <img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>

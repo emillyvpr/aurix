@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro de Alunos</title>
+  <link rel="stylesheet" href="stylecadastro.css">
+</head>
+<body>
+  <header>
+    <div class="logo">VESTIBULIZE</div>
+    <nav>
+      <a href="principalcoord.html">Início</a>
+      <a href="telaprincipal.html">Sair</a>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="card center">
+      <h2>Cadastro e Gerenciamento de Alunos</h2>
+      <form id="cadastroForm">
+        <div class="form-group">
+          <label for="nome">Nome completo:</label>
+          <input type="text" id="nome" placeholder="Digite o nome completo" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail institucional:</label>
+          <input type="email" id="email" placeholder="exemplo@escola.com.br" required>
+        </div>
+
+        <div class="form-group">
+          <label for="curso">Curso:</label>
+          <select id="curso" required>
+            <option value="" disabled selected>Selecione um curso</option>
+            <option>1º ano</option>
+            <option>2º ano</option>
+            <option>3º ano</option>
+            <option>Pré-Vestibulinho</option>
+            <option>Pré-Vestibular</option>
+            <option>Empreendedorismo</option>
+          </select>
+        </div>
+
+        <div class="buttons-group">
+          <button type="button" class="perfil-btn" id="btnIncluir">Incluir Usuário</button>
+          <button type="button" class="perfil-btn" id="btnAlterar">Alterar Usuário</button>
+          <button type="button" class="perfil-btn" id="btnConsultar">Consultar Usuários</button>
+        </div>
+      </form>
+      <div id="listaAlunos" style="margin-top: 30px; text-align: center;"></div>
+    </div>
+  </main>
+  <footer class="footer">
+    <img src="logosanquim.webp" alt="Logo Sanquim" />
+  </footer>
+  <script>
+    const nomeInput = document.getElementById('nome');
+    const emailInput = document.getElementById('email');
+    const cursoInput = document.getElementById('curso');
+    const listaAlunos = document.getElementById('listaAlunos');
+    let editIndex = null;
+
+    const getAlunos = () => JSON.parse(localStorage.getItem('alunos')) || [];
+    const salvarAlunos = (alunos) => localStorage.setItem('alunos', JSON.stringify(alunos));
+
+    const atualizarLista = () => {
+      const alunos = getAlunos();
+      if (alunos.length === 0) {
+        listaAlunos.innerHTML = "<p>Nenhum aluno cadastrado.</p>";
+        return;
+      }
+      let tabela = `
+        <h3>Alunos cadastrados:</h3>
+        <table border="1" cellpadding="10" style="width:100%; border-collapse:collapse;">
+          <tr style="background:#007c8a; color:white;">
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Curso</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>`;
+      alunos.forEach((aluno, i) => {
+        tabela += `
+          <tr>
+            <td>${aluno.nome}</td>
+            <td>${aluno.email}</td>
+            <td>${aluno.curso}</td>
+            <td>${aluno.ativo ? "Ativo" : "Inativo"}</td>
+            <td>
+              <button onclick="editarAluno(${i})">✏️</button>
+              <button onclick="excluirAluno(${i})">🗑️</button>
+              <button onclick="toggleAtivo(${i})">${aluno.ativo ? "Inativar" : "Ativar"}</button>
+            </td>
+          </tr>`;
+      });
+      tabela += "</table>";
+      listaAlunos.innerHTML = tabela;
+    };
+    document.getElementById('btnIncluir').addEventListener('click', () => {
+      const nome = nomeInput.value.trim();
+      const email = emailInput.value.trim();
+      const curso = cursoInput.value.trim();
+
+      if (!nome || !email || !curso) {
+        alert("Preencha todos os campos.");
+        return;
+      }
+      const alunos = getAlunos();
+      if (editIndex !== null) {
+        alunos[editIndex] = { nome, email, curso, ativo: true };
+        editIndex = null;
+        alert("Aluno alterado com sucesso!");
+      } else {
+        alunos.push({ nome, email, curso, ativo: true });
+        alert("Aluno cadastrado com sucesso!");
+      }
+      salvarAlunos(alunos);
+      document.getElementById('cadastroForm').reset();
+      atualizarLista();
+    });
+    document.getElementById('btnAlterar').addEventListener('click', () => {
+      alert("Clique no lápis ✏️ ao lado do aluno para editar.");
+    });
+    document.getElementById('btnConsultar').addEventListener('click', atualizarLista);
+    function editarAluno(index) {
+      const aluno = getAlunos()[index];
+      nomeInput.value = aluno.nome;
+      emailInput.value = aluno.email;
+      cursoInput.value = aluno.curso;
+      editIndex = index;
+    }
+    function excluirAluno(index) {
+      const alunos = getAlunos();
+      if (confirm(`Deseja excluir ${alunos[index].nome}?`)) {
+        alunos.splice(index, 1);
+        salvarAlunos(alunos);
+        atualizarLista();
+      }
+    }
+    function toggleAtivo(index) {
+      const alunos = getAlunos();
+      alunos[index].ativo = !alunos[index].ativo;
+      salvarAlunos(alunos);
+      atualizarLista();
+    }
+    document.addEventListener('DOMContentLoaded', atualizarLista);
+  </script>
+</body>
+</html>

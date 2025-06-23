@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Material Didático</title>
+  <link rel="stylesheet" href="stylealuno.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">VESTIBULIZE</div>
+    <div class="turma">TURMA: 3º EM A</div>
+  </header>
+  <div class="container">
+    <div class="aluno-nome" id="aluno-nome"></div>
+
+    <div class="box">
+      <h2>Material Didático</h2>
+      <table class="notas-table">
+        <tr>
+          <th>Disciplina</th>
+          <th>Tipo</th>
+          <th>Material</th>
+        </tr>
+        <tr>
+          <td>Matemática</td>
+          <td>Apostila</td>
+          <td><a href="#" target="_blank">Apostila de Equações (PDF)</a></td>
+        </tr>
+        <tr>
+          <td>História</td>
+          <td>Slide</td>
+          <td><a href="#" target="_blank">Apresentação: Era Vargas</a></td>
+        </tr>
+        <tr>
+          <td>Química</td>
+          <td>Vídeo</td>
+          <td><a href="#" target="_blank">Ligações químicas no YouTube</a></td>
+        </tr>
+        <td>Português</td>
+          <td>Apostila</td>
+          <td><a href="#" target="_blank">Apostila de Verbos (PDF)</a></td>
+        </tr>
+        <td>Biologia</td>
+          <td>Apostila</td>
+          <td><a href="#" target="_blank">Exercícios de Mitose (PDF)</a></td>
+        </tr>
+      </table>
+      <p class="legenda">
+        Clique no link para acessar o material. Em caso de dúvidas, fale com o professor responsável.
+      </p>
+    </div>
+  </div>
+  <script>
+    const nomeDoAluno = "João Pedro";
+    document.getElementById("aluno-nome").innerHTML = `Aluno(a): <strong>${nomeDoAluno}</strong>`;
+  </script>
+    <img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>

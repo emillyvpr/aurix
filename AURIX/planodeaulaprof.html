@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Meus Planos de Aula</title>
+  <link rel="stylesheet" href="styleprof-coord.css">
+</head>
+<body>
+  <header>Meus Planos de Aula - Prof. João Pereira</header>
+  <div class="container">
+    <h2>Adicionar Plano</h2>
+    <label for="materia">Matéria:</label>
+    <input type="text" id="materia">
+
+    <label for="turma">Turma:</label>
+    <select id="turma">
+    <option value="">Turma</option>
+    <option>1º ano</option>
+    <option>2º ano</option>
+    <option>3º ano</option>
+    <option>Pré-Vestibulinho</option>
+    <option>Pré-Vestibular</option>
+    <option>Empreendedorismo</option>
+    </select>
+
+    <label for="data">Data:</label>
+    <input type="date" id="data">
+
+    <label for="objetivos">Objetivos da Aula:</label>
+    <input type="text" id="objetivos">
+
+    <div class="buttons">
+      <button onclick="adicionarPlano()">Adicionar Plano</button>
+    </div>
+    <h2 style="margin-top: 40px;">Meus Planos</h2>
+    <table id="tabelaPlanos">
+      <thead>
+        <tr>
+          <th>Matéria</th>
+          <th>Turma</th>
+          <th>Data</th>
+          <th>Objetivos</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Matemática</td>
+          <td>2º EM</td>
+          <td>2025-06-15</td>
+          <td>Funções quadráticas e gráficos</td>
+          <td>
+            <button onclick="editar(this)">Editar</button>
+            <button onclick="excluir(this)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    function adicionarPlano() {
+      const materia = document.getElementById("materia").value;
+      const turma = document.getElementById("turma").value;
+      const data = document.getElementById("data").value;
+      const objetivos = document.getElementById("objetivos").value;
+
+      if (!materia || !turma || !data || !objetivos) {
+        alert("Preencha todos os campos!");
+        return;
+      }
+      const tabela = document.getElementById("tabelaPlanos").getElementsByTagName("tbody")[0];
+      const novaLinha = tabela.insertRow();
+
+      novaLinha.innerHTML = `
+        <td>${materia}</td>
+        <td>${turma}</td>
+        <td>${data}</td>
+        <td>${objetivos}</td>
+        <td>
+          <button onclick="editar(this)">Editar</button>
+          <button onclick="excluir(this)">Excluir</button>
+        </td>
+      `;
+      document.getElementById("materia").value = "";
+      document.getElementById("turma").value = "";
+      document.getElementById("data").value = "";
+      document.getElementById("objetivos").value = "";
+    }
+    function excluir(botao) {
+      if (confirm("Deseja excluir este plano?")) {
+        const linha = botao.parentNode.parentNode;
+        linha.remove();
+      }
+    }
+    function editar(botao) {
+      const linha = botao.parentNode.parentNode;
+      const colunas = linha.getElementsByTagName("td");
+
+      const novaMateria = prompt("Matéria:", colunas[0].innerText);
+      const novaTurma = prompt("Turma:", colunas[1].innerText);
+      const novaData = prompt("Data (AAAA-MM-DD):", colunas[2].innerText);
+      const novosObjetivos = prompt("Objetivos:", colunas[3].innerText);
+
+      if (novaMateria && novaTurma && novaData && novosObjetivos) {
+        colunas[0].innerText = novaMateria;
+        colunas[1].innerText = novaTurma;
+        colunas[2].innerText = novaData;
+        colunas[3].innerText = novosObjetivos;
+      }
+    }
+  </script>
+<img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Planos de Aula - Coordenação</title>
+  <link rel="stylesheet" href="styleprof-coord.css">
+</head>
+<body>
+  <header>Planos de Aula - Coordenação</header>
+  <div class="container">
+    <h2>Adicionar Novo Plano</h2>
+    <label for="professor">Professor:</label>
+    <input type="text" id="professor">
+
+    <label for="materia">Matéria:</label>
+    <input type="text" id="materia">
+
+    <label for="turma">Turma:</label>
+    <select id="turma">
+    <option value="">Turma</option>
+    <option>1º ano</option>
+    <option>2º ano</option>
+    <option>3º ano</option>
+    <option>Pré-Vestibulinho</option>
+    <option>Pré-Vestibular</option>
+    <option>Empreendedorismo</option>
+    </select>
+
+    <label for="data">Data:</label>
+    <input type="date" id="data">
+
+    <label for="objetivos">Objetivos da Aula:</label>
+    <input type="text" id="objetivos">
+
+    <div class="buttons">
+      <button onclick="adicionarPlano()">Adicionar Plano</button>
+    </div>
+    <h2 style="margin-top: 40px;">Planos Registrados</h2>
+    <table id="tabelaPlanos">
+      <thead>
+        <tr>
+          <th>Professor</th>
+          <th>Matéria</th>
+          <th>Turma</th>
+          <th>Data</th>
+          <th>Objetivos</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Graça Martins</td>
+          <td>Português</td>
+          <td>3º EM</td>
+          <td>2025-06-10</td>
+          <td>Revisar leitura e interpretação textual</td>
+          <td>
+            <button onclick="editar(this)">Editar</button>
+            <button onclick="excluir(this)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    function adicionarPlano() {
+      const professor = document.getElementById("professor").value;
+      const materia = document.getElementById("materia").value;
+      const turma = document.getElementById("turma").value;
+      const data = document.getElementById("data").value;
+      const objetivos = document.getElementById("objetivos").value;
+
+      if (!professor || !materia || !turma || !data || !objetivos) {
+        alert("Preencha todos os campos!");
+        return;
+      }
+      const tabela = document.getElementById("tabelaPlanos").getElementsByTagName("tbody")[0];
+      const novaLinha = tabela.insertRow();
+
+      novaLinha.innerHTML = `
+        <td>${professor}</td>
+        <td>${materia}</td>
+        <td>${turma}</td>
+        <td>${data}</td>
+        <td>${objetivos}</td>
+        <td>
+          <button onclick="editar(this)">Editar</button>
+          <button onclick="excluir(this)">Excluir</button>
+        </td>
+      `;
+      document.getElementById("professor").value = "";
+      document.getElementById("materia").value = "";
+      document.getElementById("turma").value = "";
+      document.getElementById("data").value = "";
+      document.getElementById("objetivos").value = "";
+    }
+    function excluir(botao) {
+      if (confirm("Deseja excluir este plano?")) {
+        const linha = botao.parentNode.parentNode;
+        linha.remove();
+      }
+    }
+    function editar(botao) {
+      const linha = botao.parentNode.parentNode;
+      const colunas = linha.getElementsByTagName("td");
+
+      const novoProfessor = prompt("Nome do professor:", colunas[0].innerText);
+      const novaMateria = prompt("Matéria:", colunas[1].innerText);
+      const novaTurma = prompt("Turma:", colunas[2].innerText);
+      const novaData = prompt("Data (AAAA-MM-DD):", colunas[3].innerText);
+      const novosObjetivos = prompt("Objetivos:", colunas[4].innerText);
+
+      if (novoProfessor && novaMateria && novaTurma && novaData && novosObjetivos) {
+        colunas[0].innerText = novoProfessor;
+        colunas[1].innerText = novaMateria;
+        colunas[2].innerText = novaTurma;
+        colunas[3].innerText = novaData;
+        colunas[4].innerText = novosObjetivos;
+      }
+    }
+  </script>
+<img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>

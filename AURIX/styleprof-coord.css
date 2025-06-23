@@ -1,0 +1,135 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fecb56;
+  color: #007c8a;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #f4a42c;
+  padding: 20px;
+  text-align: center;
+  font-size: 26px;
+  color: white;
+  font-weight: bold;
+}
+
+.container {
+  max-width: 800px;
+  margin: 30px auto;
+  background-color: #ffdd87;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  flex: 1;
+  min-width: 120px;
+  padding: 10px;
+  background-color: #007c8a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #005f6b;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  background-color: white;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #f4a42c;
+  color: white;
+}
+
+tr.selected {
+  background-color: #fceabb;
+}
+
+.sanquim {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 100px;
+  opacity: 0.9;
+  z-index: 999;
+}
+
+.reprovado {
+  background-color: #ffcccc;
+}
+
+.aprovado {
+  background-color: #ccffcc;
+}
+
+.media-col {
+  font-weight: bold;
+}
+
+#total {
+  margin-top: 15px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.filtro {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filtro input {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button:nth-child(1) {
+  background-color: #007c8a;
+}
+
+button:nth-child(2) {
+  background-color: #cc3333;
+}

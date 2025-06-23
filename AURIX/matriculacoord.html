@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Matrícula Completa</title>
+  <link rel="stylesheet" href="styleprof-coord.css">
+</head>
+<body>
+<header>Formulário de Matrícula Escolar</header>
+<div class="container">
+  <form id="formAluno">
+    <label>Nome do Aluno:</label>
+    <input type="text" id="nome" required>
+
+    <label>Data de Nascimento:</label>
+    <input type="date" id="dataNasc" required>
+
+    <label>CPF:</label>
+    <input type="text" id="cpf" maxlength="14" required placeholder="000.000.000-00">
+
+    <label>RG:</label>
+    <input type="text" id="rg" required>
+
+    <label>Endereço:</label>
+    <input type="text" id="endereco" required>
+
+    <label>Email:</label>
+    <input type="email" id="email" required>
+
+    <label>Nome do Responsável:</label>
+    <input type="text" id="responsavel" required>
+
+    <label>Telefone:</label>
+    <input type="tel" id="telefone" placeholder="(00) 00000-0000">
+
+    <label>Série:</label>
+    <select id="serie" required>
+      <option value="">Selecione</option>
+      <option>1º ano</option>
+      <option>2º ano</option>
+      <option>3º ano</option>
+      <option>Pré-Vestibulinho</option>
+      <option>Pré-Vestibular</option>
+      <option>Empreendedorismo</option>
+    </select>
+    <div class="buttons">
+      <button type="button" onclick="cadastrarAluno()">Cadastrar</button>
+      <button type="button" onclick="editarAluno()">Editar</button>
+      <button type="button" onclick="excluirAluno()">Excluir</button>
+      <button type="reset">Limpar</button>
+      <button type="button" onclick="consultarAlunos()">Consultar</button>
+    </div>
+  </form>
+  <table id="tabelaAlunos">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Série</th>
+        <th>Telefone</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+<script>
+  const LIMITE_MATRICULA = new Date("2025-06-30");
+  const LIMITE_TURMA = 30;
+  let alunos = [];
+  let alunoSelecionado = -1;
+
+  function getFormData() {
+    return {
+      nome: document.getElementById("nome").value.trim(),
+      cpf: document.getElementById("cpf").value.trim(),
+      rg: document.getElementById("rg").value.trim(),
+      endereco: document.getElementById("endereco").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      dataNasc: document.getElementById("dataNasc").value,
+      responsavel: document.getElementById("responsavel").value.trim(),
+      telefone: document.getElementById("telefone").value.trim(),
+      serie: document.getElementById("serie").value
+    };
+  }
+  function setFormData(aluno) {
+    document.getElementById("nome").value = aluno.nome;
+    document.getElementById("cpf").value = aluno.cpf;
+    document.getElementById("rg").value = aluno.rg;
+    document.getElementById("endereco").value = aluno.endereco;
+    document.getElementById("email").value = aluno.email;
+    document.getElementById("dataNasc").value = aluno.dataNasc;
+    document.getElementById("responsavel").value = aluno.responsavel;
+    document.getElementById("telefone").value = aluno.telefone;
+    document.getElementById("serie").value = aluno.serie;
+  }
+  function cadastrarAluno() {
+    const hoje = new Date();
+    if (hoje > LIMITE_MATRICULA) {
+      alert("Período de matrícula encerrado!");
+      return;
+    }
+    const aluno = getFormData();
+    if (!aluno.nome || !aluno.cpf || !aluno.serie) {
+      alert("Preencha os campos obrigatórios.");
+      return;
+    }
+    if (alunoSelecionado === -1 && alunos.some(a => a.cpf === aluno.cpf)) {
+      alert("CPF já cadastrado!");
+      return;
+    }
+    const turmaOcupada = alunos.filter(a => a.serie === aluno.serie).length;
+    if (alunoSelecionado === -1 && turmaOcupada >= LIMITE_TURMA) {
+      alert("Turma cheia. Escolha outra.");
+      return;
+    }
+    if (alunoSelecionado >= 0) {
+      alunos[alunoSelecionado] = aluno;
+      alert("Dados atualizados com sucesso!");
+      alunoSelecionado = -1;
+    } else {
+      alunos.push(aluno);
+      alert("Matrícula realizada com sucesso!");
+    }
+    consultarAlunos();
+    document.getElementById("formAluno").reset();
+  }
+  function editarAluno() {
+    if (alunoSelecionado === -1) {
+      alert("Selecione um aluno clicando em uma linha da tabela.");
+    } else {
+      cadastrarAluno();
+    }
+  }
+  function excluirAluno() {
+    if (alunoSelecionado === -1) {
+      alert("Selecione um aluno na tabela para excluir.");
+    } else {
+      if (confirm("Tem certeza que deseja excluir este aluno?")) {
+        alunos.splice(alunoSelecionado, 1);
+        alert("Aluno excluído com sucesso!");
+        alunoSelecionado = -1;
+        consultarAlunos();
+        document.getElementById("formAluno").reset();
+      }
+    }
+  }
+  function consultarAlunos() {
+    const tabela = document.querySelector("#tabelaAlunos tbody");
+    tabela.innerHTML = "";
+
+    alunos.forEach((aluno, index) => {
+      const linha = document.createElement("tr");
+      linha.innerHTML = `
+        <td>${aluno.nome}</td>
+        <td>${aluno.cpf}</td>
+        <td>${aluno.serie}</td>
+        <td>${aluno.responsavel}</td>
+        <td>${aluno.email}</td>
+      `;
+      linha.onclick = () => {
+        alunoSelecionado = index;
+        setFormData(aluno);
+        document.querySelectorAll("tr").forEach(tr => tr.classList.remove("selected"));
+        linha.classList.add("selected");
+      };
+      tabela.appendChild(linha);
+    });
+  }
+</script>
+<img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>

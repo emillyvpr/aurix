@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Aulas Ministradas - Coordenador</title>
+  <link rel="stylesheet" href="styleprof-coord.css">
+</head>
+<body>
+  <header>Aulas Ministradas - Coordenador</header>
+  <div class="container">
+
+    <div class="filtro">
+      <input type="text" id="filtroProfessor" placeholder="Filtrar por professor">
+      <input type="text" id="filtroMateria" placeholder="Filtrar por matéria">
+      <input type="date" id="filtroData">
+    </div>
+
+    <div class="buttons">
+      <button onclick="filtrar()">Filtrar</button>
+      <button onclick="limparFiltros()">Limpar Filtros</button>
+      <button onclick="exportar()">Exportar</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Matéria</th>
+          <th>Curso</th>
+          <th>Professor</th>
+          <th>Tema</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaAulas">
+        <tr>
+          <td>21/06/2025</td>
+          <td>Matemática</td>
+          <td>Pré-Vestibular</td>
+          <td>Prof. Carlos Silva</td>
+          <td>Equações do 2º grau</td>
+        </tr>
+        <tr>
+          <td>19/06/2025</td>
+          <td>História</td>
+          <td>1° ano</td>
+          <td>Profa. Ana Costa</td>
+          <td>Era Vargas</td>
+        </tr>
+        <tr>
+          <td>20/06/2025</td>
+          <td>Química</td>
+          <td>Pré-Vestibulinho</td>
+          <td>Prof. João Pereira</td>
+          <td>Ligações químicas</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    function filtrar() {
+      const prof = document.getElementById("filtroProfessor").value.toLowerCase();
+      const mat = document.getElementById("filtroMateria").value.toLowerCase();
+      const data = document.getElementById("filtroData").value;
+      const linhas = document.querySelectorAll("#tabelaAulas tr");
+
+      linhas.forEach(linha => {
+        const colunas = linha.querySelectorAll("td");
+        if (colunas.length > 0) {
+          const match = (
+            colunas[0].textContent.includes(data) &&
+            colunas[1].textContent.toLowerCase().includes(mat) &&
+            colunas[2].textContent.toLowerCase().includes(prof)
+          );
+          linha.style.display = match ? "" : "none";
+        }
+      });
+    }
+    function limparFiltros() {
+      document.getElementById("filtroProfessor").value = "";
+      document.getElementById("filtroMateria").value = "";
+      document.getElementById("filtroData").value = "";
+      document.querySelectorAll("#tabelaAulas tr").forEach(l => l.style.display = "");
+    }
+    function exportar() {
+      alert("Funcionalidade de exportação ainda será implementada!");
+    }
+  </script>
+<img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>

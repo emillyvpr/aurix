@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerenciar Matérias</title>
+  <link rel="stylesheet" href="styleprof-coord.css">
+</head>
+<body>
+  <header>Matérias da Escola - Coordenação</header>
+  <div class="container">
+    <h2>Adicionar Nova Matéria</h2>
+    <label for="nome">Nome da Matéria:</label>
+    <input type="text" id="nome">
+
+    <label for="carga">Carga Horária (horas):</label>
+    <input type="number" id="carga">
+
+    <label for="professor">Professor Responsável:</label>
+    <input type="text" id="professor">
+
+    <div class="buttons">
+      <button onclick="adicionarMateria()">Adicionar Matéria</button>
+    </div>
+    <h2 style="margin-top: 40px;">Lista de Matérias</h2>
+    <table id="tabelaMaterias">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Carga Horária</th>
+          <th>Responsável</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Português</td>
+          <td>80</td>
+          <td>Graça Martins</td>
+          <td>
+            <button onclick="editar(this)">Editar</button>
+            <button onclick="excluir(this)">Excluir</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Matemática</td>
+          <td>100</td>
+          <td>Carlos Silva</td>
+          <td>
+            <button onclick="editar(this)">Editar</button>
+            <button onclick="excluir(this)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    function adicionarMateria() {
+      const nome = document.getElementById("nome").value;
+      const carga = document.getElementById("carga").value;
+      const professor = document.getElementById("professor").value;
+
+      if (!nome || !carga || !professor) {
+        alert("Preencha todos os campos.");
+        return;
+      }
+      const tabela = document.getElementById("tabelaMaterias").getElementsByTagName("tbody")[0];
+      const novaLinha = tabela.insertRow();
+
+      novaLinha.innerHTML = `
+        <td>${nome}</td>
+        <td>${carga}</td>
+        <td>${professor}</td>
+        <td>
+          <button onclick="editar(this)">Editar</button>
+          <button onclick="excluir(this)">Excluir</button>
+        </td>
+      `;
+      document.getElementById("nome").value = "";
+      document.getElementById("carga").value = "";
+      document.getElementById("professor").value = "";
+    }
+    function excluir(botao) {
+      if (confirm("Deseja realmente excluir esta matéria?")) {
+        const linha = botao.parentNode.parentNode;
+        linha.remove();
+      }
+    }
+    function editar(botao) {
+      const linha = botao.parentNode.parentNode;
+      const colunas = linha.getElementsByTagName("td");
+
+      const novoNome = prompt("Novo nome da matéria:", colunas[0].innerText);
+      const novaCarga = prompt("Nova carga horária:", colunas[1].innerText);
+      const novoProf = prompt("Novo professor responsável:", colunas[2].innerText);
+
+      if (novoNome && novaCarga && novoProf) {
+        colunas[0].innerText = novoNome;
+        colunas[1].innerText = novaCarga;
+        colunas[2].innerText = novoProf;
+      }
+    }
+  </script>
+<img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>

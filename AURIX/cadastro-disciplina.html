@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro de Disciplinas</title>
+  <link rel="stylesheet" href="stylecadastro.css">
+</head>
+<body>
+  <header>
+    <div class="logo">VESTIBULIZE</div>
+    <nav>
+      <a href="principalcoord.html">Início</a>
+      <a href="telaprincipal.html">Sair</a>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="card center">
+      <h2>Cadastro e Gerenciamento de Disciplinas</h2>
+      <form id="cadastroForm">
+        <div class="form-group">
+          <label for="disciplina">Disciplina:</label>
+          <input type="text" id="disciplina" placeholder="Ex: Matemática" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="curso">Curso:</label>
+          <select id="curso" required>
+            <option value="" disabled selected>Selecione um curso</option>
+            <option>1º ano</option>
+            <option>2º ano</option>
+            <option>3º ano</option>
+            <option>Pré-Vestibulinho</option>
+            <option>Pré-Vestibular</option>
+            <option>Empreendedorismo</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="nome">Professor Responsável:</label>
+          <input type="text" id="nome" placeholder="Nome completo" required>
+        </div>
+
+        <div class="buttons-group">
+          <button type="button" class="perfil-btn" id="btnIncluir">Incluir Disciplina</button>
+          <button type="button" class="perfil-btn" id="btnAlterar">Alterar Disciplina</button>
+          <button type="button" class="perfil-btn" id="btnConsultar">Consultar Disciplinas</button>
+        </div>
+      </form>
+      <div id="listaDisciplinas" style="margin-top: 30px; text-align: center;"></div>
+    </div>
+  </main>
+  <footer class="footer">
+    <img src="logosanquim.webp" alt="Logo Sanquim" />
+  </footer>
+  <script>
+    const disciplinaInput = document.getElementById('disciplina');
+    const cursoInput = document.getElementById('curso');
+    const nomeInput = document.getElementById('nome');
+    const listaDisciplinas = document.getElementById('listaDisciplinas');
+    let editIndex = null;
+
+    const getDisciplinas = () => JSON.parse(localStorage.getItem('disciplinas')) || [];
+    const salvarDisciplinas = (disciplinas) => localStorage.setItem('disciplinas', JSON.stringify(disciplinas));
+
+    const atualizarLista = () => {
+      const disciplinas = getDisciplinas();
+      if (disciplinas.length === 0) {
+        listaDisciplinas.innerHTML = "<p>Nenhuma disciplina cadastrada.</p>";
+        return;
+      }
+      let tabela = `
+        <h3>Disciplinas cadastradas:</h3>
+        <table border="1" cellpadding="10" style="width:100%; border-collapse:collapse;">
+          <tr style="background:#007c8a; color:white;">
+            <th>Disciplina</th>
+            <th>Curso</th>
+            <th>Professor Responsável</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>`;
+      disciplinas.forEach((disciplina, i) => {
+        tabela += `
+          <tr>
+            <td>${disciplina.disciplina}</td>
+            <td>${disciplina.curso}</td>
+            <td>${disciplina.nome}</td>
+            <td>${disciplina.ativo ? "Ativo" : "Inativo"}</td>
+            <td>
+              <button onclick="editarDisciplina(${i})">✏️</button>
+              <button onclick="excluirDisciplina(${i})">🗑️</button>
+              <button onclick="toggleAtivo(${i})">${disciplina.ativo ? "Inativar" : "Ativar"}</button>
+            </td>
+          </tr>`;
+      });
+      tabela += "</table>";
+      listaDisciplinas.innerHTML = tabela;
+    };
+    document.getElementById('btnIncluir').addEventListener('click', () => {
+      const disciplina = disciplinaInput.value.trim();
+      const curso = cursoInput.value.trim();
+      const nome = nomeInput.value.trim();
+
+      if (!disciplina || !curso || !nome) {
+        alert("Preencha todos os campos.");
+        return;
+      }
+      const disciplinas = getDisciplinas();
+      if (editIndex !== null) {
+        disciplinas[editIndex] = { disciplina, curso, nome, ativo: true };
+        editIndex = null;
+        alert("Disciplina alterada com sucesso!");
+      } else {
+        disciplinas.push({ disciplina, curso, nome, ativo: true });
+        alert("Disciplina cadastrada com sucesso!");
+      }
+      salvarDisciplinas(disciplinas);
+      document.getElementById('cadastroForm').reset();
+      atualizarLista();
+    });
+    document.getElementById('btnAlterar').addEventListener('click', () => {
+      alert("Clique no lápis ✏️ ao lado da disciplina para editar.");
+    });
+    document.getElementById('btnConsultar').addEventListener('click', atualizarLista);
+    function editarDisciplina(index) {
+      const disciplina = getDisciplinas()[index];
+      disciplinaInput.value = disciplina.disciplina;
+      cursoInput.value = disciplina.curso;
+      nomeInput.value = disciplina.nome;
+      editIndex = index;
+    }
+    function excluirDisciplina(index) {
+      const disciplinas = getDisciplinas();
+      if (confirm(`Deseja excluir ${disciplinas[index].disciplina}?`)) {
+        disciplinas.splice(index, 1);
+        salvarDisciplinas(disciplinas);
+        atualizarLista();
+      }
+    }
+    function toggleAtivo(index) {
+      const disciplinas = getDisciplinas();
+      disciplinas[index].ativo = !disciplinas[index].ativo;
+      salvarDisciplinas(disciplinas);
+      atualizarLista();
+    }
+    document.addEventListener('DOMContentLoaded', atualizarLista);
+  </script>
+</body>
+</html>

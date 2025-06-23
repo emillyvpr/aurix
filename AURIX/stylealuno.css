@@ -1,0 +1,127 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4bc42;
+  color: #007c8a;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #f4bc42;
+}
+
+.logo {
+  font-size: 2em;
+  font-weight: bold;
+  text-shadow: 2px 2px #444;
+}
+
+.turma {
+  background-color: #d28d2f;
+  padding: 10px 20px;
+  border-radius: 25px;
+  color: white;
+  font-weight: bold;
+}
+
+.container {
+  padding: 30px;
+}
+
+.box {
+  background-color: #fdd56c;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.notas-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.notas-table th, .notas-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+.notas-table th {
+  background-color: #2ca79b;
+  color: white;
+}
+
+.aprovado {
+  color: green;
+  font-weight: bold;
+}
+
+.recuperacao {
+  color: orange;
+  font-weight: bold;
+}
+
+.reprovado {
+  color: red;
+  font-weight: bold;
+}
+
+.legenda {
+  margin-top: 15px;
+  font-size: 0.95em;
+  background-color: #fff4cc;
+  padding: 10px;
+  border-left: 5px solid #007c8a;
+  border-radius: 5px;
+}
+
+footer {
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  color: #007c8a;
+  font-weight: bold;
+}
+
+.aluno-nome {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #004d59;
+}
+
+.sanquim {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 100px;
+  opacity: 0.9;
+  z-index: 999;
+}
+
+.atencao {
+  color: orange;
+  font-weight: bold;
+}
+
+.notas-table td, .notas-table th {
+  text-align: center;
+}
+
+a {
+  color: #007c8a;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

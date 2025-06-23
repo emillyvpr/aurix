@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notas do Aluno</title>
+  <link rel="stylesheet" href="stylealuno.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">VESTIBULIZE</div>
+    <div class="turma">TURMA: 3º EM A</div>
+  </header>
+  <div class="container">
+
+    <div class="aluno-nome" id="aluno-nome"></div>
+
+    <div class="box">
+      <h2>Notas do Aluno</h2>
+      <table class="notas-table">
+        <tr>
+          <th>Matéria</th>
+          <th>1º Bimestre</th>
+          <th>2º Bimestre</th>
+          <th>3º Bimestre</th>
+          <th>4º Bimestre</th>
+          <th>Média Final</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td>Matemática</td>
+          <td>8.0</td>
+          <td>7.5</td>
+          <td>9.0</td>
+          <td>8.5</td>
+          <td>8.25</td>
+          <td class="aprovado">Aprovado</td>
+        </tr>
+        <tr>
+          <td>História</td>
+          <td>5.5</td>
+          <td>6.0</td>
+          <td>5.0</td>
+          <td>6.5</td>
+          <td>5.75</td>
+          <td class="recuperacao">Recuperação</td>
+        </tr>
+        <tr>
+          <td>Química</td>
+          <td>3.0</td>
+          <td>4.0</td>
+          <td>3.5</td>
+          <td>4.0</td>
+          <td>3.62</td>
+          <td class="reprovado">Reprovado</td>
+        </tr>
+      </table>
+      <p class="legenda">
+        <strong>Legenda:</strong> Aprovado (média &ge; 7.0) | Recuperação (5.0 ≤ média &lt; 7.0) | Reprovado (média &lt; 5.0)
+        <img src="logosanquim.webp" alt="sanquim" class="sanquim">
+  <script>
+    const nomeDoAluno = "João Pedro";
+    document.getElementById("aluno-nome").innerHTML = `Aluno(a): <strong>${nomeDoAluno}</strong>`;
+  </script>

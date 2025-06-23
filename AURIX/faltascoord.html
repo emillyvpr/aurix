@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Visualizar Faltas</title>
+  <link rel="stylesheet" href="styleprof-coord.css">
+</head>
+<body>
+  <header>Faltas dos Alunos - Coordenação</header>
+  <div class="container">
+    <div class="filtro">
+      <input type="text" id="busca" placeholder="Buscar aluno por nome..." onkeyup="filtrarAlunos()">
+      <button onclick="ordenarPorNome()">Ordenar por nome</button>
+    </div>
+    <table id="tabelaAlunos">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Matrícula</th>
+          <th>Matemática</th>
+          <th>História</th>
+          <th>Química</th>
+          <th>Português</th>
+          <th>Biologia</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ana Beatriz</td>
+          <td>202301</td>
+          <td>2</td>
+          <td>1</td>
+          <td>3</td>
+          <td>0</td>
+          <td>2</td>
+          <td class="media-col"></td>
+        </tr>
+        <tr>
+          <td>Bruno Silva</td>
+          <td>202302</td>
+          <td>0</td>
+          <td>2</td>
+          <td>1</td>
+          <td>0</td>
+          <td>1</td>
+          <td class="media-col"></td>
+        </tr>
+        <tr>
+          <td>Carla Souza</td>
+          <td>202303</td>
+          <td>2</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td class="media-col"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    function filtrarAlunos() {
+      const input = document.getElementById("busca");
+      const filtro = input.value.toUpperCase();
+      const tabela = document.getElementById("tabelaAlunos");
+      const linhas = tabela.getElementsByTagName("tr");
+
+      for (let i = 1; i < linhas.length; i++) {
+        const nome = linhas[i].getElementsByTagName("td")[0];
+        if (nome) {
+          const txtValue = nome.textContent || nome.innerText;
+          linhas[i].style.display = txtValue.toUpperCase().includes(filtro) ? "" : "none";
+        }
+      }
+    }
+    function ordenarPorNome() {
+      const tabela = document.getElementById("tabelaAlunos");
+      const linhas = Array.from(tabela.rows).slice(1);
+      linhas.sort((a, b) => a.cells[0].innerText.localeCompare(b.cells[0].innerText));
+      linhas.forEach(row => tabela.tBodies[0].appendChild(row));
+    }
+    function destacarFaltas() {
+      const tabela = document.getElementById("tabelaAlunos");
+      const linhas = tabela.getElementsByTagName("tr");
+
+      for (let i = 1; i < linhas.length; i++) {
+        const tds = linhas[i].getElementsByTagName("td");
+        let total = 0;
+        let alerta = false;
+
+        for (let j = 2; j <= 6; j++) {
+          const faltas = parseInt(tds[j].innerText);
+          total += faltas;
+          if (faltas >= 3) alerta = true;
+        }
+        tds[7].innerText = total;
+        if (alerta) {
+          linhas[i].classList.add("reprovado");
+        }
+      }
+    }
+    destacarFaltas();
+  </script>
+<img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro de Turma</title>
+  <link rel="stylesheet" href="stylecadastro.css">
+</head>
+<body>
+  <header>
+    <div class="logo">VESTIBULIZE</div>
+    <nav>
+      <a href="principalcoord.html">Início</a>
+      <a href="telaprincipal.html">Sair</a>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="card center">
+      <h2>Cadastro e Gerenciamento de Turmas</h2>
+      <form id="turmaForm">
+        <div class="form-group">
+          <label for="turma">Turma:</label>
+          <select id="turma" required>
+            <option value="" disabled selected>Selecione a turma</option>
+            <option>1º ano</option>
+            <option>2º ano</option>
+            <option>3º ano</option>
+            <option>Pré-Vestibulinho</option>
+            <option>Pré-Vestibular</option>
+            <option>Empreendedorismo</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="periodo">Período:</label>
+          <select id="periodo" required>
+            <option value="" disabled selected>Selecione o período</option>
+            <option>Matutino</option>
+            <option>Vespertino</option>
+            <option>Noturno</option>
+            <option>Online</option>
+          </select>
+        </div>
+
+        <div class="buttons-group">
+          <button type="button" class="perfil-btn" id="btnIncluir">Incluir Turma</button>
+          <button type="button" class="perfil-btn" id="btnAlterar">Alterar Turma</button>
+          <button type="button" class="perfil-btn" id="btnConsultar">Consultar Turmas</button>
+        </div>
+      </form>
+      <div id="listaTurmas" style="margin-top: 30px; text-align: center;"></div>
+    </div>
+  </main>
+  <footer class="footer">
+    <img src="logosanquim.webp" alt="Logo Sanquim" />
+  </footer>
+  <script>
+    const turmaInput = document.getElementById('turma');
+    const periodoInput = document.getElementById('periodo');
+    const listaTurmas = document.getElementById('listaTurmas');
+    let editIndex = null;
+
+    const getTurmas = () => JSON.parse(localStorage.getItem('turmas')) || [];
+    const salvarTurmas = (turmas) => localStorage.setItem('turmas', JSON.stringify(turmas));
+
+    const atualizarLista = () => {
+      const turmas = getTurmas();
+      if (turmas.length === 0) {
+        listaTurmas.innerHTML = "<p>Nenhuma turma cadastrada.</p>";
+        return;
+      }
+      let tabela = `
+        <h3>Turmas cadastradas:</h3>
+        <table border="1" cellpadding="10" style="width:100%; border-collapse:collapse;">
+          <tr style="background:#007c8a; color:white;">
+            <th>Turma</th>
+            <th>Período</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>`;
+      turmas.forEach((turma, i) => {
+        tabela += `
+          <tr>
+            <td>${turma.nome}</td>
+            <td>${turma.periodo}</td>
+            <td>${turma.ativo ? "Ativa" : "Inativa"}</td>
+            <td>
+              <button onclick="editarTurma(${i})">✏️</button>
+              <button onclick="excluirTurma(${i})">🗑️</button>
+              <button onclick="toggleAtivo(${i})">${turma.ativo ? "Inativar" : "Ativar"}</button>
+            </td>
+          </tr>`;
+      });
+      tabela += "</table>";
+      listaTurmas.innerHTML = tabela;
+    };
+    document.getElementById('btnIncluir').addEventListener('click', () => {
+      const nome = turmaInput.value.trim();
+      const periodo = periodoInput.value.trim();
+
+      if (!nome || !periodo) {
+        alert("Preencha todos os campos.");
+        return;
+      }
+      const turmas = getTurmas();
+
+      if (editIndex !== null) {
+        turmas[editIndex] = { nome, periodo, ativo: true };
+        editIndex = null;
+        alert("Turma alterada com sucesso!");
+      } else {
+        turmas.push({ nome, periodo, ativo: true });
+        alert("Turma cadastrada com sucesso!");
+      }
+      salvarTurmas(turmas);
+      document.getElementById('turmaForm').reset();
+      atualizarLista();
+    });
+    document.getElementById('btnAlterar').addEventListener('click', () => {
+      alert("Clique no ícone ✏️ ao lado da turma para editar.");
+    });
+    document.getElementById('btnConsultar').addEventListener('click', atualizarLista);
+
+    function editarTurma(index) {
+      const turma = getTurmas()[index];
+      turmaInput.value = turma.nome;
+      periodoInput.value = turma.periodo;
+      editIndex = index;
+    }
+    function excluirTurma(index) {
+      const turmas = getTurmas();
+      if (confirm(`Deseja excluir a turma ${turmas[index].nome}?`)) {
+        turmas.splice(index, 1);
+        salvarTurmas(turmas);
+        atualizarLista();
+      }
+    }
+    function toggleAtivo(index) {
+      const turmas = getTurmas();
+      turmas[index].ativo = !turmas[index].ativo;
+      salvarTurmas(turmas);
+      atualizarLista();
+    }
+    document.addEventListener('DOMContentLoaded', atualizarLista);
+  </script>
+</body>
+</html>

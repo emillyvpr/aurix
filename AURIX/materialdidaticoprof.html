@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Material Didático</title>
+  <link rel="stylesheet" href="styleprof-coord.css">
+</head>
+<body>
+<header>Material Didático</header>
+<div class="container">
+  <h2>Inserir Material</h2>
+  <label for="nome">Nome do Material:</label>
+  <input type="text" id="nome" placeholder="Ex: Apostila de Gramática">
+
+  <label for="curso">Curso:</label>
+  <select id="curso">
+    <option>1° ano</option>
+    <option>2° ano</option>
+    <option>3° ano</option>
+    <option>Pré-Vestibular</option>
+    <option>Pré-Vestibulinho</option>
+    <option>Empreendedorismo</option>
+  </select>
+
+  <label for="descricao">Descrição:</label>
+  <input type="text" id="descricao" placeholder="Ex: Exercícios sobre pronomes...">
+
+  <label for="tipo">Tipo de Material:</label>
+  <select id="tipo">
+    <option value="PDF">PDF</option>
+    <option value="Vídeo">Vídeo</option>
+    <option value="Slide">Slide</option>
+    <option value="Link">Link</option>
+    <option value="Outro">Outro</option>
+  </select>
+  <label for="link">Link (URL):</label>
+  <input type="url" id="link" placeholder="https://...">
+
+  <label for="data">Data de uso:</label>
+  <input type="date" id="data">
+
+  <button onclick="adicionarMaterial()">Adicionar Material</button>
+
+  <ul id="listaMateriais"></ul>
+</div>
+<script>
+  let materiais = [];
+  function adicionarMaterial() {
+    const nome = document.getElementById('nome').value.trim();
+    const descricao = document.getElementById('descricao').value.trim();
+    const tipo = document.getElementById('tipo').value;
+    const link = document.getElementById('link').value.trim();
+    const data = document.getElementById('data').value;
+
+    if (nome && descricao && tipo && link && data) {
+      materiais.push({ nome, descricao, tipo, link, data });
+      atualizarLista();
+      document.getElementById('nome').value = '';
+      document.getElementById('descricao').value = '';
+      document.getElementById('tipo').value = 'PDF';
+      document.getElementById('link').value = '';
+      document.getElementById('data').value = '';
+    } else {
+      alert("Preencha todos os campos para adicionar o material.");
+    }
+  }
+  function atualizarLista() {
+    const lista = document.getElementById('listaMateriais');
+    lista.innerHTML = '';
+
+    materiais.forEach((material, index) => {
+      const item = document.createElement('li');
+      item.className = 'nota-item';
+      item.innerHTML = `
+        <strong>${material.nome}</strong> (${material.tipo})<br>
+        <strong>Descrição:</strong> ${material.descricao}<br>
+        <strong>Data:</strong> ${material.data}<br>
+        <a href="${material.link}" target="_blank">🔗 Acessar Material</a><br>
+        <button onclick="editarMaterial(${index})">✏️ Editar</button>
+        <button onclick="excluirMaterial(${index})">❌ Excluir</button>
+      `;
+      lista.appendChild(item);
+    });
+  }
+  function editarMaterial(index) {
+    const novoNome = prompt("Novo nome:", materiais[index].nome);
+    const novaDesc = prompt("Nova descrição:", materiais[index].descricao);
+    const novoTipo = prompt("Novo tipo:", materiais[index].tipo);
+    const novoLink = prompt("Novo link:", materiais[index].link);
+    const novaData = prompt("Nova data (aaaa-mm-dd):", materiais[index].data);
+
+    if (novoNome && novaDesc && novoTipo && novoLink && novaData) {
+      materiais[index] = {
+        nome: novoNome,
+        descricao: novaDesc,
+        tipo: novoTipo,
+        link: novoLink,
+        data: novaData
+      };
+      atualizarLista();
+    }
+  }
+  function excluirMaterial(index) {
+    if (confirm("Deseja excluir este material?")) {
+      materiais.splice(index, 1);
+      atualizarLista();
+    }
+  }
+</script>
+<img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>

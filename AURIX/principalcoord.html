@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Coordenador</title>
+  <link rel="stylesheet" href="styleprincipais.css">
+</head>
+<body>
+  <header>
+    <div class="logo">VESTIBULIZE</div>
+    <nav>
+      <div class="dropdown">
+        <a href="#" class="botao-turmas" id="btnCadastro">Cadastro ▾</a>
+        <ul class="dropdown-lista" id="listaCadastro">
+          <li><a href="cadastro-aluno.html" data-cadastro="Aluno">Aluno</a></li>
+          <li><a href="cadastro-professor.html" data-cadastro="Professor">Professor</a></li>
+          <li><a href="cadastro-usuario.html" data-cadastro="Usuário">Usuário</a></li>
+          <li><a href="cadastro-disciplina.html" data-cadastro="Disciplina">Disciplina</a></li>
+          <li><a href="cadastro-turma.html" data-cadastro="Turma">Turma</a></li>
+        </ul>
+    </div>
+
+    <div id="painelCadastro" class="card" style="display:none;">
+      <h2>Cadastro Selecionado:</h2>
+      <p id="nomeCadastro" style="font-size: 1.3rem; font-weight: bold;"></p>
+    </div>
+      <a href="matriculacoord.html">Matrícula</a>
+      <a href="notascoord.html">Notas</a>
+      <a href="faltascoord.html">Faltas</a>
+      <a href="materiascoord.html">Matérias</a>
+      <a href="planodeaulacoord.html">Plano de Aula</a>
+      <a href="aulasministradascoord.html">Aulas Ministradas</a>
+      <a href="materialdidaticocoord.html">Material Didático</a>
+  <div class="dropdown">
+  <a href="#" class="botao-turmas" id="btnTurmas">Turmas ▾</a>
+  <ul class="dropdown-lista" id="listaTurmas">
+    <li><a href="#">1º EM</a></li>
+    <li><a href="#">2º EM</a></li>
+    <li><a href="#">3º EM</a></li>
+    <li><a href="#">Pré-Vestibulinho</a></li>
+    <li><a href="#">Pré-Vestibular</a></li>
+    <li><a href="#">Empreendedorismo</a></li>
+  </ul>
+</div>
+
+<div id="painelTurma" class="card" style="display:none;">
+  <h2>Turma Selecionada:</h2>
+  <p id="nomeTurma" style="font-size: 1.3rem; font-weight: bold;"></p>
+</div>
+
+    </nav>
+    <div class="turma-box">TURMA: 3º EM A</div>
+  </header>
+  <main class="container">
+    <div class="card">
+      <h2>Bem-vindo(a), Coordenador(a)!</h2>
+      <p>Utilize o menu acima para gerenciar todas as atividades disponíveis no sistema.</p>
+    </div>
+
+    <div class="card">
+      <h2>Próximo simulado</h2>
+      <p><strong>Data:</strong> 22/06</p>
+      <p><strong>Horário:</strong> 13:00 - 19:00</p>
+      <p><strong>Local:</strong> Sala 3</p>
+    </div>
+    
+    <div class="card">
+      <h2>Últimas atualizações</h2>
+      <ul>
+        <li>Faltam 20 dias para encerrar as inscrições para o ENEM</li>
+        <li>Novo simulado agendado</li>
+        <li>Reunião pedagógica dia 23/06 às 09h00</li>
+      </ul>
+    </div>
+  </main>
+  <footer class="footer">
+    <img src="logosanquim.webp">
+  </footer>
+</body>
+<script src="scriptsprinccoord.js"></script>
+</html>

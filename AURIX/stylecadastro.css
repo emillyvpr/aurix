@@ -1,0 +1,106 @@
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4bc42;
+      color: #007c8a;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+    }
+
+    .logo {
+      font-size: 2em;
+      font-weight: bold;
+      text-shadow: 2px 2px #444;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #007c8a;
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .container {
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 70vh;
+    }
+
+    .card {
+      background-color: #fbd26a;
+      border-radius: 16px;
+      padding: 30px 40px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+    }
+
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+    }
+
+    .buttons-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+
+    .perfil-btn {
+      background-color: #007c8a;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 20px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.3s;
+    }
+
+    .perfil-btn:hover {
+      background-color: #005e66;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+    }
+
+    .footer img {
+      width: 120px;
+      height: auto;
+    }

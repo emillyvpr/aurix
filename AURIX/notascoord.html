@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Notas dos Alunos</title>
+  <link rel="stylesheet" href="styleprof-coord.css">
+</head>
+<body>
+<header>Notas dos Alunos - Coordenação</header>
+<div class="container">
+  <h2>Consulta de Notas</h2>
+  <label for="filtroSerie">Filtrar por Série:</label>
+  <select id="filtroSerie">
+    <option value="">Todas</option>
+    <option>1º ano</option>
+    <option>2º ano</option>
+    <option>3º ano</option>
+    <option>Pré-Vestibulinho</option>
+    <option>Pré-Vestibular</option>
+    <option>Empreendedorismo</option>
+  </select>
+  <div class="buttons">
+    <button onclick="consultarNotas()">Consultar</button>
+    <button onclick="limparFiltro()">Limpar</button>
+    <button onclick="ordenarPorNome()">Ordenar por Nome</button>
+  </div>
+  <table id="tabelaNotas">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Série</th>
+        <th>Matemática</th>
+        <th>História</th>
+        <th>Química</th>
+        <th>Português</th>
+        <th>Biologia</th>
+        <th>Média</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div id="total">Total de alunos: 0</div>
+</div>
+<script>
+  const alunosNotas = [
+    {
+      nome: "João Silva",
+      serie: "1º ano",
+      notas: { matematica: 9.2, historia: 7.5, quimica: 8.5, portugues: 8.0, biologia: 9.0 }
+    },
+    {
+      nome: "Maria Oliveira",
+      serie: "2º ano",
+      notas: { matematica: 6.5, historia: 8.5, quimica: 7.0, portugues: 9.0, biologia: 7.5 }
+    },
+    {
+      nome: "Pedro Santos",
+      serie: "3º ano",
+      notas: { matematica: 4.5, historia: 5.5, quimica: 5.0, portugues: 6.0, biologia: 5.0 }
+    },
+    {
+      nome: "Sofia Nunes",
+      serie: "1º ano",
+      notas: { matematica: 9.5, historia: 10.0, quimica: 9.0, portugues: 9.5, biologia: 10.0 }
+    }
+  ];
+  let ordemAscendente = true;
+  function calcularMedia(notas) {
+    const valores = Object.values(notas);
+    const soma = valores.reduce((acc, n) => acc + n, 0);
+    return (soma / valores.length).toFixed(1);
+  }
+  function consultarNotas() {
+    const serieSelecionada = document.getElementById("filtroSerie").value;
+    const tbody = document.querySelector("#tabelaNotas tbody");
+    const totalDiv = document.getElementById("total");
+    tbody.innerHTML = "";
+
+    const filtrados = serieSelecionada
+      ? alunosNotas.filter(aluno => aluno.serie === serieSelecionada)
+      : alunosNotas;
+
+    filtrados.forEach(aluno => {
+      const media = calcularMedia(aluno.notas);
+      const linha = document.createElement("tr");
+
+      linha.className = media < 6.0 ? "reprovado" : "aprovado";
+
+      linha.innerHTML = `
+        <td>${aluno.nome}</td>
+        <td>${aluno.serie}</td>
+        <td>${aluno.notas.matematica}</td>
+        <td>${aluno.notas.historia}</td>
+        <td>${aluno.notas.quimica}</td>
+        <td>${aluno.notas.portugues}</td>
+        <td>${aluno.notas.biologia}</td>
+        <td class="media-col">${media}</td>
+      `;
+      tbody.appendChild(linha);
+    });
+    totalDiv.textContent = `Total de alunos: ${filtrados.length}`;
+  }
+  function limparFiltro() {
+    document.getElementById("filtroSerie").value = "";
+    consultarNotas();
+  }
+  function ordenarPorNome() {
+    const serieSelecionada = document.getElementById("filtroSerie").value;
+    let filtrados = serieSelecionada
+      ? alunosNotas.filter(aluno => aluno.serie === serieSelecionada)
+      : [...alunosNotas];
+
+    filtrados.sort((a, b) => {
+      if (a.nome < b.nome) return ordemAscendente ? -1 : 1;
+      if (a.nome > b.nome) return ordemAscendente ? 1 : -1;
+      return 0;
+    });
+    ordemAscendente = !ordemAscendente;
+    const tbody = document.querySelector("#tabelaNotas tbody");
+    const totalDiv = document.getElementById("total");
+    tbody.innerHTML = "";
+
+    filtrados.forEach(aluno => {
+      const media = calcularMedia(aluno.notas);
+      const linha = document.createElement("tr");
+      linha.className = media < 6.0 ? "reprovado" : "aprovado";
+      linha.innerHTML = `
+        <td>${aluno.nome}</td>
+        <td>${aluno.serie}</td>
+        <td>${aluno.notas.matematica}</td>
+        <td>${aluno.notas.historia}</td>
+        <td>${aluno.notas.quimica}</td>
+        <td>${aluno.notas.portugues}</td>
+        <td>${aluno.notas.biologia}</td>
+        <td class="media-col">${media}</td>
+      `;
+      tbody.appendChild(linha);
+    });
+    totalDiv.textContent = `Total de alunos: ${filtrados.length}`;
+  }
+  window.onload = consultarNotas;
+</script>
+<img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>

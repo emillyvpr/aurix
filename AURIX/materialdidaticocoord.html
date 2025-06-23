@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Material Didático - Coordenador</title>
+  <link rel="stylesheet" href="styleprof-coord.css">
+</head>
+<body>
+  <header>Material Didático - Coordenador</header>
+  <div class="container">
+
+    <div class="filtro">
+      <input type="text" id="filtroMateria" placeholder="Filtrar por matéria">
+      <input type="text" id="filtroProfessor" placeholder="Filtrar por professor">
+      <select id="filtroTipo">
+        <option value="">Todos os tipos</option>
+        <option value="Apostila">Apostila</option>
+        <option value="Exercício">Exercício</option>
+        <option value="Apresentação">Apresentação</option>
+      </select>
+    </div>
+
+    <div class="buttons">
+      <button onclick="filtrar()">Filtrar</button>
+      <button onclick="limparFiltros()">Limpar Filtros</button>
+      <button onclick="adicionar()">Adicionar Material</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Matéria</th>
+          <th>Professor</th>
+          <th>Curso</th>
+          <th>Tipo</th>
+          <th>Data</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaMateriais">
+        <tr>
+          <td>Apostila Funções</td>
+          <td>Matemática</td>
+          <td>Prof. Carlos Silva</td>
+          <td>Pré-Vestibular</td>
+          <td>Apostila</td>
+          <td>18/06/2025</td>
+          <td><a href="#">Visualizar</a></td>
+        </tr>
+        <tr>
+          <td>Slides sobre Iluminismo</td>
+          <td>História</td>
+          <td>Prof. Ana Costa</td>
+          <td>1° ano</td>
+          <td>Apresentação</td>
+          <td>10/06/2025</td>
+          <td><a href="#">Visualizar</a></td>
+        </tr>
+        <tr>
+          <td>Lista de Exercícios 3</td>
+          <td>Química</td>
+          <td>Prof. João Pereira</td>
+          <td>Pré-Vestibulinho</td>
+          <td>Exercício</td>
+          <td>15/06/2025</td>
+          <td><a href="#">Visualizar</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    function filtrar() {
+      const mat = document.getElementById("filtroMateria").value.toLowerCase();
+      const prof = document.getElementById("filtroProfessor").value.toLowerCase();
+      const tipo = document.getElementById("filtroTipo").value;
+      const linhas = document.querySelectorAll("#tabelaMateriais tr");
+
+      linhas.forEach(linha => {
+        const colunas = linha.querySelectorAll("td");
+        if (colunas.length > 0) {
+          const match = (
+            colunas[1].textContent.toLowerCase().includes(mat) &&
+            colunas[2].textContent.toLowerCase().includes(prof) &&
+            (tipo === "" || colunas[3].textContent === tipo)
+          );
+          linha.style.display = match ? "" : "none";
+        }
+      });
+    }
+    function limparFiltros() {
+      document.getElementById("filtroMateria").value = "";
+      document.getElementById("filtroProfessor").value = "";
+      document.getElementById("filtroTipo").value = "";
+      document.querySelectorAll("#tabelaMateriais tr").forEach(l => l.style.display = "");
+    }
+    function adicionar() {
+      alert("Funcionalidade de adicionar material ainda será implementada!");
+    }
+  </script>
+<img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>

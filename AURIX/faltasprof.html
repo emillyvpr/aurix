@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lançar Faltas</title>
+  <link rel="stylesheet" href="styleprof-coord.css">
+</head>
+<body>
+<header>Lançamento de Faltas</header>
+<div class="container">
+  <h2>Registrar Presença / Falta</h2>
+  <label for="aluno">Nome do Aluno:</label>
+  <input type="text" id="aluno" placeholder="Digite o nome do aluno">
+
+  <label for="status">Status:</label>
+  <select id="status">
+    <option value="Presente">Presente</option>
+    <option value="Ausente">Ausente</option>
+  </select>
+
+  <label for="data">Data:</label>
+  <input type="date" id="data">
+
+  <button onclick="registrarFalta()">Registrar</button>
+
+  <ul id="listaFaltas"></ul>
+</div>
+<script>
+  let registros = [];
+  function registrarFalta() {
+    const aluno = document.getElementById('aluno').value.trim();
+    const status = document.getElementById('status').value;
+    const data = document.getElementById('data').value;
+
+    if (aluno && data) {
+      registros.push({ aluno, status, data });
+      atualizarLista();
+      document.getElementById('aluno').value = '';
+      document.getElementById('status').value = 'Presente';
+      document.getElementById('data').value = '';
+    } else {
+      alert("Preencha todos os campos.");
+    }
+  }
+  function atualizarLista() {
+    const lista = document.getElementById('listaFaltas');
+    lista.innerHTML = '';
+
+    registros.forEach((registro, index) => {
+      const item = document.createElement('li');
+      item.className = 'nota-item';
+      item.innerHTML = `
+        <strong>${registro.aluno}</strong> - ${registro.status} em ${registro.data}
+        <button onclick="editarFalta(${index})">✏️ Editar</button>
+        <button onclick="excluirFalta(${index})">❌ Excluir</button>
+      `;
+      lista.appendChild(item);
+    });
+  }
+  function editarFalta(index) {
+    const novoStatus = prompt("Novo status (Presente/Faltou):", registros[index].status);
+    const novaData = prompt("Nova data (aaaa-mm-dd):", registros[index].data);
+    if (novoStatus && novaData) {
+      registros[index].status = novoStatus;
+      registros[index].data = novaData;
+      atualizarLista();
+    }
+  }
+  function excluirFalta(index) {
+    if (confirm("Deseja excluir este registro?")) {
+      registros.splice(index, 1);
+      atualizarLista();
+    }
+  }
+</script>
+<img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>

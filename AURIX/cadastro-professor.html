@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro de Professores</title>
+  <link rel="stylesheet" href="stylecadastro.css">
+</head>
+<body>
+  <header>
+    <div class="logo">VESTIBULIZE</div>
+    <nav>
+      <a href="principalcoord.html">Início</a>
+      <a href="telaprincipal.html">Sair</a>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="card center">
+      <h2>Cadastro e Gerenciamento de Professores</h2>
+      <form id="cadastroForm">
+        <div class="form-group">
+          <label for="nome">Nome completo:</label>
+          <input type="text" id="nome" placeholder="Digite o nome completo" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail institucional:</label>
+          <input type="email" id="email" placeholder="exemplo@escola.com.br" required>
+        </div>
+
+        <div class="form-group">
+          <label for="disciplina">Disciplina:</label>
+          <input type="text" id="disciplina" placeholder="Ex: Matemática">
+        </div>
+
+        <div class="buttons-group">
+          <button type="button" class="perfil-btn" id="btnIncluir">Incluir Professor</button>
+          <button type="button" class="perfil-btn" id="btnAlterar">Alterar Professor</button>
+          <button type="button" class="perfil-btn" id="btnConsultar">Consultar Professores</button>
+        </div>
+      </form>
+      <div id="listaProfessores" style="margin-top: 30px; text-align: center;"></div>
+    </div>
+  </main>
+  <footer class="footer">
+    <img src="logosanquim.webp" alt="Logo Sanquim" />
+  </footer>
+  <script>
+    const nomeInput = document.getElementById('nome');
+    const emailInput = document.getElementById('email');
+    const disciplinaInput = document.getElementById('disciplina');
+    const listaProfessores = document.getElementById('listaProfessores');
+    let editIndex = null;
+
+    const getProfessores = () => JSON.parse(localStorage.getItem('professores')) || [];
+    const salvarProfessores = (professores) => localStorage.setItem('professores', JSON.stringify(professores));
+
+    const atualizarLista = () => {
+      const professores = getProfessores();
+      if (professores.length === 0) {
+        listaProfessores.innerHTML = "<p>Nenhum professor cadastrado.</p>";
+        return;
+      }
+      let tabela = `
+        <h3>Professores cadastrados:</h3>
+        <table border="1" cellpadding="10" style="width:100%; border-collapse:collapse;">
+          <tr style="background:#007c8a; color:white;">
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Disciplina</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>`;
+      professores.forEach((professor, i) => {
+        tabela += `
+          <tr>
+            <td>${professor.nome}</td>
+            <td>${professor.email}</td>
+            <td>${professor.disciplina}</td>
+            <td>${professor.ativo ? "Ativo" : "Inativo"}</td>
+            <td>
+              <button onclick="editarProfessor(${i})">✏️</button>
+              <button onclick="excluirProfessor(${i})">🗑️</button>
+              <button onclick="toggleAtivo(${i})">${professor.ativo ? "Inativar" : "Ativar"}</button>
+            </td>
+          </tr>`;
+      });
+      tabela += "</table>";
+      listaProfessores.innerHTML = tabela;
+    };
+    document.getElementById('btnIncluir').addEventListener('click', () => {
+      const nome = nomeInput.value.trim();
+      const email = emailInput.value.trim();
+      const disciplina = disciplinaInput.value.trim();
+
+      if (!nome || !email || !disciplina) {
+        alert("Preencha todos os campos.");
+        return;
+      }
+      const professores = getProfessores();
+      if (editIndex !== null) {
+        professores[editIndex] = { nome, email, disciplina, ativo: true };
+        editIndex = null;
+        alert("Professor alterado com sucesso!");
+      } else {
+        professores.push({ nome, email, disciplina, ativo: true });
+        alert("Professor cadastrado com sucesso!");
+      }
+      salvarProfessores(professores);
+      document.getElementById('cadastroForm').reset();
+      atualizarLista();
+    });
+    document.getElementById('btnAlterar').addEventListener('click', () => {
+      alert("Clique no lápis ✏️ ao lado do professor para editar.");
+    });
+    document.getElementById('btnConsultar').addEventListener('click', atualizarLista);
+    function editarProfessor(index) {
+      const professor = getProfessores()[index];
+      nomeInput.value = professor.nome;
+      emailInput.value = professor.email;
+      disciplinaInput.value = professor.disciplina;
+      editIndex = index;
+    }
+    function excluirProfessor(index) {
+      const professores = getProfessores();
+      if (confirm(`Deseja excluir ${professores[index].nome}?`)) {
+        professores.splice(index, 1);
+        salvarProfessores(professores);
+        atualizarLista();
+      }
+    }
+    function toggleAtivo(index) {
+      const professores = getProfessores();
+      professores[index].ativo = !professores[index].ativo;
+      salvarProfessores(professores);
+      atualizarLista();
+    }
+    document.addEventListener('DOMContentLoaded', atualizarLista);
+  </script>
+</body>
+</html>

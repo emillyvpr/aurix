@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lançar Notas</title>
+  <link rel="stylesheet" href="styleprof-coord.css">
+</head>
+<body>
+<header>Lançamento de Notas</header>
+<div class="container">
+  <h2>Inserir Nota do Aluno</h2>
+  <label for="aluno">Nome do Aluno:</label>
+  <input type="text" id="aluno" placeholder="Digite o nome">
+
+  <label for="nota">Nota:</label>
+  <input type="number" id="nota" placeholder="Digite a nota" min="0" max="10">
+
+  <button onclick="adicionarNota()">Adicionar Nota</button>
+
+  <ul id="listaNotas"></ul>
+</div>
+<div class="container">
+  <h2>Consultar Notas do Aluno</h2>
+  <label for="buscaAluno">Nome do Aluno:</label>
+  <input type="text" id="buscaAluno" placeholder="Digite o nome para consultar">
+  <button onclick="mostrarNotas()">Ver Notas</button>
+  <div id="resultado" style="margin-top: 20px;"></div>
+</div>
+<script>
+  let boletim = {};
+  function adicionarNota() {
+    const aluno = document.getElementById('aluno').value.trim();
+    const nota = parseFloat(document.getElementById('nota').value);
+
+    if (aluno && !isNaN(nota)) {
+      if (!boletim[aluno]) {
+        boletim[aluno] = [];
+      }
+      boletim[aluno].push(nota);
+      atualizarListaNotas();
+      document.getElementById('aluno').value = '';
+      document.getElementById('nota').value = '';
+    } else {
+      alert("Preencha corretamente o nome e a nota.");
+    }
+  }
+  function atualizarListaNotas() {
+    const lista = document.getElementById('listaNotas');
+    lista.innerHTML = '';
+
+    for (let aluno in boletim) {
+      boletim[aluno].forEach((nota, index) => {
+        const item = document.createElement('li');
+        item.className = 'nota-item';
+        item.innerHTML = `
+          <strong>${aluno}</strong> - Nota: ${nota.toFixed(1)}
+          <button onclick="editarNota('${aluno}', ${index})">✏️ Editar</button>
+          <button onclick="excluirNota('${aluno}', ${index})">❌ Excluir</button>
+        `;
+        lista.appendChild(item);
+      });
+    }
+  }
+  function mostrarNotas() {
+    const aluno = document.getElementById('buscaAluno').value.trim();
+    const resultado = document.getElementById('resultado');
+
+    if (boletim[aluno]) {
+      resultado.innerHTML = `<strong>Notas de ${aluno}:</strong> ${boletim[aluno].join(', ')}`;
+    } else {
+      resultado.innerHTML = `Aluno "<strong>${aluno}</strong>" não encontrado ou sem notas lançadas.`;
+    }
+  }
+  function excluirNota(aluno, index) {
+    if (confirm(`Deseja realmente excluir a nota ${boletim[aluno][index]} de ${aluno}?`)) {
+      boletim[aluno].splice(index, 1);
+      if (boletim[aluno].length === 0) {
+        delete boletim[aluno];
+      }
+      atualizarListaNotas();
+    }
+  }
+  function editarNota(aluno, index) {
+    const novaNota = prompt(`Editar nota de ${aluno}:`, boletim[aluno][index]);
+    if (novaNota !== null && !isNaN(novaNota)) {
+      boletim[aluno][index] = parseFloat(novaNota);
+      atualizarListaNotas();
+    }
+  }
+</script>
+<img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Faltas do Aluno</title>
+  <link rel="stylesheet" href="stylealuno.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">VESTIBULIZE</div>
+    <div class="turma">TURMA: 3º EM A</div>
+  </header>
+  <div class="container">
+
+    <div class="aluno-nome" id="aluno-nome"></div>
+
+    <div class="box">
+      <h2>Faltas do Aluno</h2>
+      <table class="notas-table">
+        <tr>
+          <th>Matéria</th>
+          <th>Faltas</th>
+          <th>Total de Aulas</th>
+          <th>Presença (%)</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td>Matemática</td>
+          <td>3</td>
+          <td>60</td>
+          <td>95%</td>
+          <td class="aprovado">✔️ OK</td>
+        </tr>
+        <tr>
+          <td>História</td>
+          <td>12</td>
+          <td>60</td>
+          <td>80%</td>
+          <td class="atencao">⚠️ Atenção</td>
+        </tr>
+        <tr>
+          <td>Química</td>
+          <td>20</td>
+          <td>60</td>
+          <td>50%</td>
+          <td class="reprovado">❌ Reprovado</td>
+        </tr>
+      </table>
+      <p class="legenda">
+        <strong>Legenda:</strong> OK (presença ≥ 85%) | Atenção (75% ≤ presença &lt; 85%) | Reprovado (presença &lt; 75%)
+      </p>
+    </div>
+  </div>
+  <script>
+    const nomeDoAluno = "João Pedro";
+    document.getElementById("aluno-nome").innerHTML = `Aluno(a): <strong>${nomeDoAluno}</strong>`;
+  </script>
+  <img src="logosanquim.webp" alt="sanquim" class="sanquim">
+</body>
+</html>
